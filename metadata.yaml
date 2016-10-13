@@ -1,0 +1,40 @@
+# Plugin name
+name: vzstorage
+# Human-readable name for your plugin
+title: vzstorage backend
+# Plugin version
+version: '1.0.0'
+# Description
+description: configures openstack's modules to use vzstorage as backend
+# Required fuel version
+fuel_version: ['8.0']
+# Specify license of your plugin
+licenses: ['Apache License Version 2.0']
+# Specify author or company name
+authors: ['Rewlion']
+# A link to the plugin's page
+homepage: 'https://github.com/Rewlion/fuel-plugin-vzstorage'
+# Specify a group which your plugin implements, possible options:
+# network, storage, storage::cinder, storage::glance, hypervisor,
+# equipment
+groups: [storage]
+# Change `false` to `true` if the plugin can be installed in the environment
+# after the deployment.
+is_hotpluggable: false
+
+# The plugin is compatible with releases in the list
+releases:
+  - os: virtuozzo
+    version: 7
+    mode: ['ha']
+    deployment_scripts_path: deployment_scripts/
+    repository_path: repositories/centos
+
+  - os: centos
+    version: 7
+    mode: ['ha']
+    deployment_scripts_path: deployment_scripts/
+    repository_path: repositories/centos
+
+# Version of plugin package
+package_version: '4.0.0'

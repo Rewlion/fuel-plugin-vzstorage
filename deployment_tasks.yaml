@@ -1,0 +1,48 @@
+- id: vzstorage_install
+  role: [controller,compute]
+  type: puppet
+  requires: [post_deployment_start]
+  required_for: [vzstorage_setup]
+  parameters:
+    puppet_manifest: puppet/manifests/vzstorage_install.pp
+    puppet_modules:  puppet/modules:/etc/puppet/modules
+
+- id: vzstorage_setup
+  role: [controller,compute]
+  type: puppet
+  requires: [vzstorage_install]
+  required_for: [configure_cinder_backend,configure_glance_backend,configure_nova_backend]
+  parameters:
+    puppet_manifest: puppet/manifests/vzstorage_setup.pp
+    puppet_modules:  puppet/modules:/etc/puppet/modules
+
+- id: configure_cinder_backend
+  role: [cinder]
+  type: puppet
+  condition: "settings:vzstorage.use_vzstorage_as_cinder_backend.value == true"
+  requires: [cinder,vzstorage_setup]
+  required_for: [post_deployment_end]
+  parameters:
+    puppet_manifest: puppet/manifests/configure_cinder_backend.pp
+    puppet_modules:  puppet/modules:/etc/puppet/modules
+
+#- id: configure_glance_backend
+#  role: [glance]
+#  type: puppet
+#  condition: "settings:vzstorage.use_vzstorage_as_glance_backend.value == true"
+#  requires: [glance,vzstorage_setup]
+#  required_for: [post_deployment_end]
+#  parameters:
+#    puppet_manifest: puppet/manifests/configure_glance_backend.pp
+#    puppet_modules:  puppet/modules:/etc/puppet/modules
+
+- id: configure_nova_backend
+  role: [nova-compute]
+  type: puppet
+  condition: "settings:vzstorage.use_vzstorage_as_nova_backend.value == true"
+  requires: [nova,vzstorage_setup]
+  required_for: [post_deployment_end]
+  parameters:
+    puppet_manifest: puppet/manifests/configure_nova_backend.pp
+    puppet_modules:  puppet/modules:/etc/puppet/modules
+
