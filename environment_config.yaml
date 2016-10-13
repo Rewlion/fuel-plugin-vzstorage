@@ -1,6 +1,13 @@
 attributes:
   metadata:
   
+  use_exist_vzstorage:
+    type: "checkbox"
+    weight: 30
+    value: true
+    label: "Checkbox label"
+    description: "use exist vzstorage cluster"
+
   cluster_name:
     value: 'Set default value'
     label: 'Text field'
@@ -25,9 +32,6 @@ attributes:
     value: true
     label: "Checkbox label"
     description: "use vzstorage as cinder backend"
-    regex:
-        source: '\S'
-        error: "Error field cannot be empty"
 
 
   #use_vzstorage_as_cinder_backend:
