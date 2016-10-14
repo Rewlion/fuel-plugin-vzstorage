@@ -12,9 +12,19 @@
   type: puppet
   requires: [vzstorage_install]
   required_for: [configure_cinder_backend,configure_glance_backend,configure_nova_backend]
-  condition: "settings:vzstorage.use_exist_vzstorage.value == true"
+  condition: "settings:vzstorage.use_exist_vzstorage.value == false"
   parameters:
     puppet_manifest: puppet/manifests/vzstorage_setup.pp
+    puppet_modules:  puppet/modules:/etc/puppet/modules
+
+- id: vzstorage_authorize
+  role: [controller,compute]
+  type: puppet
+  requires: [vzstorage_install]
+  required_for: [configure_cinder_backend,configure_glance_backend,configure_nova_backend]
+  condition: "settings:vzstorage.use_exist_vzstorage.value == true"
+  parameters:
+    puppet_manifest: puppet/manifests/vzstorage_authorize.pp
     puppet_modules:  puppet/modules:/etc/puppet/modules
 
 - id: configure_cinder_backend
