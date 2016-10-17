@@ -1,7 +1,7 @@
 attributes:
   metadata:
     group: 'storage'
-    
+
   use_exist_vzstorage:
     type: "checkbox"
     weight: 30
@@ -15,6 +15,9 @@ attributes:
     description: 'Description for text field'
     weight: 25
     type: "text"
+    regex:
+        source: '\S'
+        error: "Error field cannot be empty"
 
   cluster_password:
     value: 'Set default value'
