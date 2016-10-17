@@ -1,6 +1,7 @@
 attributes:
   metadata:
-  
+    group: 'storage'
+    
   use_exist_vzstorage:
     type: "checkbox"
     weight: 30

@@ -24,17 +24,16 @@ is_hotpluggable: false
 
 # The plugin is compatible with releases in the list
 releases:
-  - os: virtuozzo
-    version: 7
-    mode: ['ha']
-    deployment_scripts_path: deployment_scripts/
-    repository_path: repositories/centos
-
-  - os: centos
-    version: 7
-    mode: ['ha']
-    deployment_scripts_path: deployment_scripts/
-    repository_path: repositories/centos
+#  - os: virtuozzo
+#    version: test
+#    mode: ['ha']
+#    deployment_scripts_path: deployment_scripts/
+#    repository_path: repositories/centos
+- os: centos
+  version: mitaka-9.0
+  mode: ['ha']
+  deployment_scripts_path: deployment_scripts/
+  repository_path: repositories/centos
 
 # Version of plugin package
 package_version: '4.0.0'

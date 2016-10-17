@@ -6,6 +6,7 @@
   parameters:
     puppet_manifest: puppet/manifests/vzstorage_install.pp
     puppet_modules:  puppet/modules:/etc/puppet/modules
+    timeout: 1800
 
 - id: vzstorage_setup
   role: [controller,compute]
@@ -16,6 +17,7 @@
   parameters:
     puppet_manifest: puppet/manifests/vzstorage_setup.pp
     puppet_modules:  puppet/modules:/etc/puppet/modules
+    timeout: 1800
 
 - id: vzstorage_authorize
   role: [controller,compute]
@@ -26,6 +28,7 @@
   parameters:
     puppet_manifest: puppet/manifests/vzstorage_authorize.pp
     puppet_modules:  puppet/modules:/etc/puppet/modules
+    timeout: 1800
 
 - id: configure_cinder_backend
   role: [cinder]
@@ -36,6 +39,7 @@
   parameters:
     puppet_manifest: puppet/manifests/configure_cinder_backend.pp
     puppet_modules:  puppet/modules:/etc/puppet/modules
+    timeout: 1800
 
 #- id: configure_glance_backend
 #  role: [glance]
@@ -56,4 +60,4 @@
   parameters:
     puppet_manifest: puppet/manifests/configure_nova_backend.pp
     puppet_modules:  puppet/modules:/etc/puppet/modules
-
+    timeout: 1800
