@@ -23,5 +23,5 @@ exec{"cinder type-create vstorage-ploop":}->
 exec{"cinder type-key vstorage-ploop set volume_backend_name=vstorage-ploop":}
 ~> 
 Service[ openstack-cinder-api,
-         openstack-cinder-scheduler
+         openstack-cinder-scheduler,
          openstack-cinder-volume ]
