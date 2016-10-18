@@ -5,5 +5,5 @@ $cluster_name       = vzstorage['cluster_name']
 $cluster_password   = vzstorage['cluster_password']
 
 exec{"authorize to vzstorage":
-  cmd => '$ echo $cluster_password | vstorage -c $cluster_name auth-node -P'
+  cmd => 'echo $cluster_password | vstorage -c $cluster_name auth-node -P'
 }
