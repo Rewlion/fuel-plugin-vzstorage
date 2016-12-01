@@ -12,7 +12,7 @@ attributes:
   cluster_name:
     value: 'Set default value'
     label: 'Text field'
-    description: 'Description for text field'
+    description: 'cluster name'
     weight: 25
     type: "text"
     regex:
@@ -28,26 +28,3 @@ attributes:
     regex:
         source: '\S'
         error: "Error field cannot be empty"
-
-
-  use_vzstorage_as_cinder_backend:
-    type: "checkbox"
-    weight: 30
-    value: true
-    label: "Checkbox label"
-    description: "use vzstorage as cinder backend"
-
-
-  #use_vzstorage_as_cinder_backend:
-  #  type: "checkbox"
-  #  weight: 30
-  #  value: true
-  #  label: "Checkbox label"
-  #  description: "Checkbox description"
-
-  use_vzstorage_as_nova_backend:
-    type: "checkbox"
-    weight: 30
-    value: true
-    label: "Checkbox label"
-    description: "use vzstorage as nova backend"
