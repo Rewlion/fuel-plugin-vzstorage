@@ -1,0 +1,16 @@
+fuel-plugin-vzstorage-mds-role:
+  name: mds server role
+  description: this role configures an additional mds-server for vzstorage cluster
+  weight: 20
+  conflicts:
+    - compute
+  update_required:
+    - compute
+    - cinder
+  has_primary: true
+  public_ip_required: true
+  public_for_dvr_required: true
+  limits:
+    min: 1
+    recommended: 3
+  
