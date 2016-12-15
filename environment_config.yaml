@@ -28,3 +28,23 @@ attributes:
     regex:
         source: '\S'
         error: "Error field cannot be empty"
+
+  hdd_storage_devices:
+    type: "text"
+    value: ""
+    label: ""
+    description: "comma separated list of  hdd devices, example: /dev/sda,/dev/sdb."
+    weight: 10
+    regex:
+      source: '^(/[a-zA-Z0-9:-_]+)+(,(/[a-zA-Z0-9:-_]+)+)*$'
+      error: 'Incorrect list, write something like /dev/sda,/dev/sdb'
+
+  ssd_storage_devices:
+    type: "text"
+    value: ""
+    label: ""
+    description: "comma separated list of  ssd devices, example: /dev/sda,/dev/sdb."
+    weight: 10
+    regex:
+      source: '^(/[a-zA-Z0-9:-_]+)+(,(/[a-zA-Z0-9:-_]+)+)*$'
+      error: 'Incorrect list, write something like /dev/sda,/dev/sdb'

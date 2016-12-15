@@ -1,40 +1,74 @@
-- id: vzstorage_install
-  role: [controller,compute]
-  type: puppet
-  requires: [post_deployment_end]
-  required_for: [vzstorage_setup]
+######################## ROLES #############################
+- id: vzstorage-master-mds
+  type: group
+  role: [vzstorage-master-mds]
+  tasks: [globals]
   parameters:
-    puppet_manifest: puppet/manifests/vzstorage_install.pp
+   strategy:
+    type: parallel
+
+- id: vzstorage-slave-mds
+  type: group
+  role: [vzstorage-slave-mds]
+  tasks: [globals]
+  parameters:
+   strategy:
+    type: parallel
+
+- id: vzstorage-csd
+  type: group
+  role: [vzstorage-csd]
+  tasks: [globals]
+  parameters:
+   strategy:
+    type: parallel
+######################## CLUSTER DISCOVERY #################
+#TODO
+
+######################## MASTER MDS ########################
+- id: install_master_mds
+  role: [vzstorage-mds-master]
+  type: puppet
+  requires: [post_deployment_begin]
+  parameters:
+    puppet_manifest: puppet/manifests/install_master_mds.pp
     puppet_modules:  puppet/modules:/etc/puppet/modules
     timeout: 1800
 
-- id: vzstorage_setup
-  role: [controller,compute]
+
+######################## SLAVE MDS #########################
+- id: install_slave_mds
+  role: [vzstorage-mds-slave]
   type: puppet
-  requires: [vzstorage_install]
-  required_for: [configure_cinder_backend,configure_glance_backend,configure_nova_backend]
-  condition: "settings:vzstorage.use_exist_vzstorage.value == false"
+  requires: [vzstorage-mds-master]
   parameters:
-    puppet_manifest: puppet/manifests/vzstorage_setup.pp
+    puppet_manifest: puppet/manifests/install_slave_mds.pp
     puppet_modules:  puppet/modules:/etc/puppet/modules
     timeout: 1800
 
-- id: vzstorage_authorize
-  role: [controller,compute]
+######################## CHUNK SERVER #####################
+- id: prepare_disks
+  role: [vzstorage-csd]
   type: puppet
-  requires: [vzstorage_install]
-  required_for: [configure_cinder_backend,configure_glance_backend,configure_nova_backend]
-  condition: "settings:vzstorage.use_exist_vzstorage.value == true"
+  requires: [vzstorage-mds-master]
   parameters:
-    puppet_manifest: puppet/manifests/vzstorage_authorize.pp
+    puppet_manifest: puppet/manifests/prepare_disks.pp
     puppet_modules:  puppet/modules:/etc/puppet/modules
     timeout: 1800
 
+- id: install_csd
+  role: [vzstorage-csd]
+  type: puppet
+  requires: [prepare_disks]
+  parameters:
+    puppet_manifest: puppet/manifests/install_csd.pp
+    puppet_modules:  puppet/modules:/etc/puppet/modules
+    timeout: 1800
+####################### CINDER BACKEND ##################
 - id: configure_cinder_backend
   role: [cinder]
   type: puppet
-  condition: "settings:vzstorage.use_vzstorage_as_cinder_backend.value == true"
-  requires: [post_deployment_end,vzstorage_setup]
+  requires: [post_deployment_end]
   parameters:
     puppet_manifest: puppet/manifests/configure_cinder_backend.pp
     puppet_modules:  puppet/modules:/etc/puppet/modules
