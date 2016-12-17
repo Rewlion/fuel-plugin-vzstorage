@@ -1,4 +1,4 @@
-Puppet::Parser::Functions::newfunction(:prepare_cgroups_hash, :type => :rvalue, :arity => 1, :doc => <<-EOS
+Puppet::Parser::Functions::newfunction(:get_dev_uuid, :type => :rvalue, :arity => 1, :doc => <<-EOS
     This function gets device and returns it's uuid
     throws an exception in case of bad device name
 
