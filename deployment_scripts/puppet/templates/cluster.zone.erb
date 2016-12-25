@@ -1,0 +1,18 @@
+;created by [fuel-plugin-vzstorage]
+<% mds_num = @mds.size.to_i -%>
+
+$ORIGIN <%= @zone %>.vz.
+$TTL	1H
+@	IN SOA ns rname.invalid. (2016122401 5H 10M 1D 3H)
+	NS @
+	A	<%= @master_ip %>
+
+<% for id in (0...mds_num) -%>
+s<%= id %>	A	<%= @mds[id] %>
+<% end -%>
+
+<% for id in (0...mds_num) -%>
+_pstorage._tcp.<%= @cluster_name %> SRV 0 1 2510	s<%= id %>
+<% end -%>
+
+pstorage_clusters 300 IN TXT "<%= @cluster_name %>"
