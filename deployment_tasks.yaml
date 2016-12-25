@@ -22,14 +22,21 @@
   parameters:
    strategy:
     type: parallel
-######################## CLUSTER DISCOVERY #################
-#TODO
 
 ######################## MASTER MDS ########################
+- id: configure_cluster_discovery
+  role: [vzstorage-mds-master]
+  type: puppet 
+  requires: [post_deployment_begin]
+  parameters:
+    puppet_manifest: puppet/manifests/cluster_discovery.pp
+    puppet_modules:  puppet/modules:/etc/puppet/modules
+    timeout: 1800
+
 - id: install_master_mds
   role: [vzstorage-mds-master]
   type: puppet
-  requires: [post_deployment_begin]
+  requires: [post_deployment_begin, configure_cluster_discovery]
   parameters:
     puppet_manifest: puppet/manifests/install_master_mds.pp
     puppet_modules:  puppet/modules:/etc/puppet/modules
@@ -37,10 +44,19 @@
 
 
 ######################## SLAVE MDS #########################
+- id: configure_namespace
+  role: [vzstorage-mds-slave]
+  type: puppet
+  requires: [install_master_mds]
+  parameters:
+    puppet_manifest: puppet/manifests/configure_namespace.pp
+    puppet_modules:  puppet/modules:/etc/puppet/modules
+    timeout: 1800
+
 - id: install_slave_mds
   role: [vzstorage-mds-slave]
   type: puppet
-  requires: [vzstorage-mds-master]
+  requires: [install_master_mds, configure_namespace]
   parameters:
     puppet_manifest: puppet/manifests/install_slave_mds.pp
     puppet_modules:  puppet/modules:/etc/puppet/modules
