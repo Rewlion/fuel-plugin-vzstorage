@@ -63,15 +63,6 @@
     timeout: 1800
 
 ######################## CHUNK SERVER #####################
-- id: prepare_disks
-  role: [vzstorage-csd]
-  type: puppet
-  requires: [vzstorage-mds-master]
-  parameters:
-    puppet_manifest: puppet/manifests/prepare_disks.pp
-    puppet_modules:  puppet/modules:/etc/puppet/modules
-    timeout: 1800
-
 - id: install_csd
   role: [vzstorage-csd]
   type: puppet
