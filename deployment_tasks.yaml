@@ -63,10 +63,19 @@
     timeout: 1800
 
 ######################## CHUNK SERVER #####################
+- id: mount_partitions
+  role: [vzstorage-csd]
+  type: puppet
+  requires: [post_deployment_end]
+  parameters:
+    puppet_manifest: puppet/manifests/mount_partitions.pp
+    puppet_modules:  puppet/modules:/etc/puppet/modules
+    timeout: 1800
+
 - id: install_csd
   role: [vzstorage-csd]
   type: puppet
-  requires: [prepare_disks]
+  requires: [mount_partitions]
   parameters:
     puppet_manifest: puppet/manifests/install_csd.pp
     puppet_modules:  puppet/modules:/etc/puppet/modules
