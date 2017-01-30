@@ -3,6 +3,10 @@ class vzstorage::chunk_server{
   $cluster_name       = vzstorage['cluster_name']
   $cluster_password   = vzstorage['cluster_password']
 
+  package{'vstorage-chunk-server':
+      ensure => present,
+  }
+
   exec{ 'authorize to cluster':
     cmd => 'echo ${cluster_password} | vstorage -c ${cluster_name} auth-node',
   }
