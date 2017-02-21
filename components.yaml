@@ -1,0 +1,16 @@
+- name: storage:block:vstorage
+  compatible: []
+  requires: []
+  incompatible: 
+   - name: storage:block:ceph 
+  label: "Vstorage"
+  description: "Use Vstorage as backend for Cinder volumes"
+
+- name: additional_service:configure_vstorage
+  compatible: []
+  requires:
+   - name: storage:block:vstorage
+     message: "You have to select vstorage as one of storage backends"
+  incompatible: []
+  label: "Local vstorage"
+  description: "Deployes a vstorage in your cluster nodes. Adds new Roles for nodes"
