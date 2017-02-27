@@ -1,6 +1,6 @@
 volumes_roles_mapping:
  vzstorage-csd:
-  - {allocate_size: "all", id: "csd"}
+  - {allocate_size: "full-disk", id: "csd"}
 
 volumes:
   - id: "csd"
@@ -8,7 +8,7 @@ volumes:
     min_size:
       generator: "calc_gb_to_mb"
       generator_args: [0]
-    label: "Vzstorage Chunk"
-    name: "Vzstorage Chunk"
+    label: "CSD"
+    name: "CSD"
     mount: "none"
     file_system: "ext4"
