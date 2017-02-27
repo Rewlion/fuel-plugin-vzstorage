@@ -1,50 +1,20 @@
-vzstorage-mds-slave:
-  name: an additional metadata server role
-  description: this role configures a master metadata server for vzstorage cluster
+vzstorage-mds:
+  name: Vzstorage MDS
+  description: configures a metadata server for vzstorage cluster
   weight: 20
-  conflicts:
-    - vzstorage-mds-master
-    - vzstorage-csd
-  #update_required:
-  #  - compute
-  #  - cinder
-  has_primary: true
-  public_ip_required: true
-  public_for_dvr_required: true
-  limits:
-    min: 1
-    max: 1
-  
-
-vzstorage-mds-master:
-  name: master metadata server role
-  description: this role configures an additional metadata server for vzstorage cluster
-  weight: 20
-  conflicts:
-    - vzstorage-mds-slave
-    - vzstorage-csd
- # update_required:
- #   - compute
- #   - cinder
-  has_primary: true
-  public_ip_required: true
-  public_for_dvr_required: true
+  has_primary: false
+  public_ip_required: false
+  public_for_dvr_required: false
   limits:
     min: 1
     recommended: 2
 
 vzstorage-csd:
-  name: chunk server role
-  description: this role configures an additional chunk server for vzstorage cluster
+  name: Vzstorage CSD
+  description: configures a chunk server for vzstorage cluster
   weight: 20
-  conflicts:
-    - vzstorage-mds-master
-    - vzstorage-mds-slave
-  #update_required:
-  #  - compute
-  #  - cinder
-  has_primary: true
-  public_ip_required: true
-  public_for_dvr_required: true
+  has_primary: false
+  public_ip_required: false
+  public_for_dvr_required: false
   limits:
     min: 1
