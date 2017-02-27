@@ -1,15 +1,15 @@
 ######################## ROLES #############################
-- id: vzstorage-master-mds
+- id: primary-vzstorage-mds
   type: group
-  role: [vzstorage-master-mds]
+  role: [primary-vzstorage-mds]
   tasks: [globals]
   parameters:
    strategy:
-    type: parallel
+    type: one-by-one 
 
-- id: vzstorage-slave-mds
+- id: vzstorage-mds
   type: group
-  role: [vzstorage-slave-mds]
+  role: [vzstorage-mds]
   tasks: [globals]
   parameters:
    strategy:
@@ -23,24 +23,22 @@
    strategy:
     type: parallel
 
-######################## MASTER MDS ########################
-- id: install_master_mds
-  role: [vzstorage-mds-master]
+######################## MDS ########################
+- id: configure_primary_mds
+  role: [primary-vzstorage-mds]
   type: puppet
-  requires: [post_deployment_begin, configure_cluster_discovery]
+  requires: [post_deployment_begin]
   parameters:
-    puppet_manifest: puppet/manifests/install_master_mds.pp
+    puppet_manifest: puppet/manifests/configure_primary_mds.pp
     puppet_modules:  puppet/modules:/etc/puppet/modules
     timeout: 1800
 
-
-######################## SLAVE MDS #########################
-- id: install_slave_mds
-  role: [vzstorage-mds-slave]
+- id: configure_mds
+  role: [vzstorage-mds]
   type: puppet
-  requires: [install_master_mds, configure_namespace]
+  requires: [configure_primary_mds]
   parameters:
-    puppet_manifest: puppet/manifests/install_slave_mds.pp
+    puppet_manifest: puppet/manifests/configure_mds.pp
     puppet_modules:  puppet/modules:/etc/puppet/modules
     timeout: 1800
 
@@ -48,7 +46,7 @@
 - id: mount_partitions
   role: [vzstorage-csd]
   type: puppet
-  requires: [post_deployment_end]
+  requires: [configure_primary_mds]
   parameters:
     puppet_manifest: puppet/manifests/mount_partitions.pp
     puppet_modules:  puppet/modules:/etc/puppet/modules
