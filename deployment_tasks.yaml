@@ -5,7 +5,7 @@
   tasks: [globals]
   parameters:
    strategy:
-    type: one-by-one 
+    type: one_by_one 
 
 - id: vzstorage-mds
   type: group
