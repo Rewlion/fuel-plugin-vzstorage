@@ -2,7 +2,7 @@ vzstorage-mds:
   name: Vzstorage MDS
   description: configures a metadata server for vzstorage cluster
   weight: 20
-  has_primary: false
+  has_primary: true
   public_ip_required: false
   public_for_dvr_required: false
   limits:
